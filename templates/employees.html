@@ -18,10 +18,33 @@
         th {
             background-color: #f2f2f2;
         }
+        form {
+            display: inline;
+        }
     </style>
 </head>
 <body>
     <h1>Employee List</h1>
+
+    <h2>Add New Employee</h2>
+    <form method="POST" action="/">
+        <label for="name">Name:</label>
+        <input type="text" name="name" required><br><br>
+
+        <label for="position">Position:</label>
+        <input type="text" name="position" required><br><br>
+
+        <label for="department">Department:</label>
+        <input type="text" name="department" required><br><br>
+
+        <label for="salary">Salary:</label>
+        <input type="number" name="salary" required><br><br>
+
+        <button type="submit">Add Employee</button>
+    </form>
+
+    <hr>
+
     <table>
         <thead>
             <tr>
@@ -30,6 +53,7 @@
                 <th>Position</th>
                 <th>Department</th>
                 <th>Salary</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -40,10 +64,15 @@
                 <td>{{ employee['position'] }}</td>
                 <td>{{ employee['department'] }}</td>
                 <td>{{ employee['salary'] }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('delete_employee', employee_id=employee['id']) }}">
+                        <button type="submit" onclick="return confirm('確定要刪掉 {{ employee['name'] }} 嗎？')">Delete</button>
+                    </form>
+                </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="5">No employees found.</td>
+                <td colspan="6">No employees found.</td>
             </tr>
             {% endfor %}
         </tbody>
