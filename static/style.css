@@ -8,13 +8,23 @@ body {
 }
 
 .top-bar {
-    background: linear-gradient(to right, #6a0578, #2c3e50); /* 紫色到藍色漸變 */
+    /* 1. 設定漸變背景，並讓它比容器更寬，以便創造「移動」的空間 */
+    background-image: linear-gradient(to right, #6a0578, #2c3e50, #6a0578);
+    background-size: 200% auto; /* 讓背景寬度為容器的兩倍 */
+    transition: background-position 0.5s ease-in-out; /* 設置過渡效果 */
+
+    /* 原有樣式 */
     color: white;
     padding: 15px 30px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     position: sticky;
     top: 0;
     z-index: 1000;
+}
+
+/* 2. 當滑鼠游標移入時，改變背景位置 */
+.top-bar:hover {
+    background-position: right center; /* 讓漸變從左邊流動到右邊 */
 }
 
 .top-bar-title {
@@ -32,8 +42,20 @@ body {
 
 h1 {
     text-align: center;
-    color: #8be9fd; /* 淺藍色標題 */
     margin-bottom: 20px;
+    
+    /* 1. 設定漸變背景 */
+    background-image: linear-gradient(to right, #b1dae6, #15978e);
+    
+    /* 2. 裁切背景，使其只在文字範圍內可見 */
+    -webkit-background-clip: text; /* 為了兼容性，這是必要的 */
+    background-clip: text;
+    
+    /* 3. 將文字顏色設為透明，這樣漸變背景才能透出來 */
+    color: transparent;
+    
+    /* 額外：為了確保在沒有支援的瀏覽器上文字能正常顯示，可以提供一個 fallback 顏色 */
+    /* color: #15978e; */
 }
 
 .card {
@@ -51,18 +73,23 @@ h2 {
     margin-top: 0;
 }
 
-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.add-form, .edit-form {
+    display: flex;
+    flex-direction: column;
     gap: 15px;
-    align-items: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
 }
 
 label {
     color: #e0e0e0;
+    margin-bottom: 5px;
 }
 
-input[type="text"] {
+input[type="text"], input[type="email"] {
     width: 100%;
     padding: 12px;
     border: 1px solid #555;
@@ -77,14 +104,14 @@ button[type="submit"] {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: #135e63;
     color: #fff;
     font-size: 16px;
     transition: background-color 0.3s, transform 0.2s;
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #135e63;
     transform: translateY(-2px);
 }
 
@@ -119,8 +146,29 @@ tbody tr:hover {
     background-color: #3b3b55;
 }
 
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.edit-btn {
+    background-color: #e3ab03;
+    color: #212529;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #e3ab03;
+}
+
 .delete-btn {
-    background-color: #dc3545;
+    background-color: #831924;
     color: #fff;
     border: none;
     padding: 8px 15px;
@@ -131,5 +179,26 @@ tbody tr:hover {
 }
 
 .delete-btn:hover {
-    background-color: #c82333;
+    background-color: #831924;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.cancel-btn {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
 }

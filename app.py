@@ -20,6 +20,7 @@ def show_employees():
         name = request.form['name']
         position = request.form['position']
         department = request.form['department']
+        email = request.form['email']
         
         # 獲取當前時間並格式化
         created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -27,8 +28,8 @@ def show_employees():
         try:
             conn = mysql.connector.connect(**db_config)
             cursor = conn.cursor()
-            sql = "INSERT INTO employees (name, position, department, created_at) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (name, position, department, created_at))
+            sql = "INSERT INTO employees (name, position, department, email, created_at) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(sql, (name, position, department, email, created_at))
             conn.commit()
             return redirect(url_for('show_employees'))
         except mysql.connector.Error as err:
@@ -67,6 +68,48 @@ def delete_employee(employee_id):
             cursor.close()
             conn.close()
     return redirect(url_for('show_employees'))
+
+@app.route('/edit/<int:employee_id>', methods=['GET', 'POST'])
+def edit_employee(employee_id):
+    employee = None
+    if request.method == 'POST':
+        # 修改員工資料
+        name = request.form['name']
+        position = request.form['position']
+        department = request.form['department']
+        email = request.form['email']
+        try:
+            conn = mysql.connector.connect(**db_config)
+            cursor = conn.cursor()
+            sql = "UPDATE employees SET name = %s, position = %s, department = %s, email = %s WHERE id = %s"
+            cursor.execute(sql, (name, position, department, email, employee_id))
+            conn.commit()
+            return redirect(url_for('show_employees'))
+        except mysql.connector.Error as err:
+            print(f"Error updating employee: {err}")
+        finally:
+            if 'conn' in locals() and conn.is_connected():
+                cursor.close()
+                conn.close()
+    else:
+        # 顯示編輯表單
+        try:
+            conn = mysql.connector.connect(**db_config)
+            cursor = conn.cursor(dictionary=True)
+            sql = "SELECT * FROM employees WHERE id = %s"
+            cursor.execute(sql, (employee_id,))
+            employee = cursor.fetchone()
+        except mysql.connector.Error as err:
+            print(f"Error fetching employee for edit: {err}")
+        finally:
+            if 'conn' in locals() and conn.is_connected():
+                cursor.close()
+                conn.close()
+    
+    if employee:
+        return render_template('edit_employee.html', employee=employee)
+    else:
+        return redirect(url_for('show_employees'))
 
 if __name__ == '__main__':
     app.run(debug=True)
