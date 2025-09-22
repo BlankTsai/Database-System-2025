@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -7,7 +8,7 @@ app = Flask(__name__)
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': 'blank940658',  # 改成你自己的密碼
+    'password': 'blank940658',
     'database': 'employeesystem'
 }
 
@@ -19,13 +20,15 @@ def show_employees():
         name = request.form['name']
         position = request.form['position']
         department = request.form['department']
-        salary = request.form['salary']
+        
+        # 獲取當前時間並格式化
+        created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
         try:
             conn = mysql.connector.connect(**db_config)
             cursor = conn.cursor()
-            sql = "INSERT INTO employees (name, position, department, salary) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (name, position, department, salary))
+            sql = "INSERT INTO employees (name, position, department, created_at) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql, (name, position, department, created_at))
             conn.commit()
             return redirect(url_for('show_employees'))
         except mysql.connector.Error as err:

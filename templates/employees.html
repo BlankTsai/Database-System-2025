@@ -3,79 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee List</title>
-    <style>
-        table {
-            width: 80%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        form {
-            display: inline;
-        }
-    </style>
+    <title>Blank's Employee System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Employee List</h1>
-
-    <h2>Add New Employee</h2>
-    <form method="POST" action="/">
-        <label for="name">Name:</label>
-        <input type="text" name="name" required><br><br>
-
-        <label for="position">Position:</label>
-        <input type="text" name="position" required><br><br>
-
-        <label for="department">Department:</label>
-        <input type="text" name="department" required><br><br>
-
-        <label for="salary">Salary:</label>
-        <input type="number" name="salary" required><br><br>
-
-        <button type="submit">Add Employee</button>
-    </form>
-
-    <hr>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Department</th>
-                <th>Salary</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for employee in employees %}
-            <tr>
-                <td>{{ employee['id'] }}</td>
-                <td>{{ employee['name'] }}</td>
-                <td>{{ employee['position'] }}</td>
-                <td>{{ employee['department'] }}</td>
-                <td>{{ employee['salary'] }}</td>
-                <td>
-                    <form method="POST" action="{{ url_for('delete_employee', employee_id=employee['id']) }}">
-                        <button type="submit" onclick="return confirm('確定要刪掉 {{ employee['name'] }} 嗎？')">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="6">No employees found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <nav class="top-bar">
+        <h1 class="top-bar-title">Blank's DatabaseSystem</h1>
+    </nav>
+    
+    <div class="container">
+        <h1>Employee List</h1>
+    
+        <div class="form-section card">
+            <h2>Add New Employee</h2>
+            <form method="POST" action="/">
+                <label for="name">Name:</label>
+                <input type="text" name="name" required>
+    
+                <label for="position">Position:</label>
+                <input type="text" name="position" required>
+    
+                <label for="department">Department:</label>
+                <input type="text" name="department" required>
+    
+                <button type="submit">Add Employee</button>
+            </form>
+        </div>
+    
+        <div class="table-section card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Department</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employee in employees %}
+                    <tr>
+                        <td>{{ employee['id'] }}</td>
+                        <td>{{ employee['name'] }}</td>
+                        <td>{{ employee['position'] }}</td>
+                        <td>{{ employee['department'] }}</td>
+                        <td>{{ employee['created_at'] }}</td>
+                        <td>
+                            <form method="POST" action="{{ url_for('delete_employee', employee_id=employee['id']) }}">
+                                <button type="submit" class="delete-btn" onclick="return confirm('確定要刪除 {{ employee['name'] }} 嗎？')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6">No employees found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
