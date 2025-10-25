@@ -17,3 +17,11 @@ This presentation focuses on the three core requirements for the assignment:
  **3. Data Verification**
     - Showing the successful record insertion both on the web page and directly in the MySQL database via a `SELECT` query.
 ## HW2
+### HW2_Video：https://youtu.be/Z0KcYXTTDUk
+
+This presentation focuses on the two core requirements for the assignment:
+
+**1. Design an ER model for three entities.**
+
+**2. Perform CRUD operations on three tables and include at least one join in the final SELECT statement.**
+
