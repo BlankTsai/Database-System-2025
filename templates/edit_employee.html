@@ -9,6 +9,11 @@
 <body>
     <nav class="top-bar">
         <h1 class="top-bar-title">Blank's DatabaseSystem</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('show_employees') }}">Employees</a>
+            <a href="{{ url_for('manage_departments') }}">Departments</a>
+            <a href="{{ url_for('manage_positions') }}">Positions</a>
+        </div>
     </nav>
     
     <div class="container">
@@ -22,13 +27,27 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="position">Position:</label>
-                    <input type="text" name="position" value="{{ employee['position'] }}" required>
+                    <label for="position_id">Position:</label>
+                    <select name="position_id">
+                        <option value="">-- Select Position --</option>
+                        {% for pos in positions %}
+                            <option value="{{ pos.id }}" {% if pos.id == employee.position_id %}selected{% endif %}>
+                                {{ pos.title }}
+                            </option>
+                        {% endfor %}
+                    </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="department">Department:</label>
-                    <input type="text" name="department" value="{{ employee['department'] }}" required>
+                    <label for="department_id">Department:</label>
+                    <select name="department_id">
+                        <option value="">-- Select Department --</option>
+                        {% for dept in departments %}
+                            <option value="{{ dept.id }}" {% if dept.id == employee.department_id %}selected{% endif %}>
+                                {{ dept.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
                 </div>
 
                 <div class="form-group">

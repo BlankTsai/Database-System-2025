@@ -9,6 +9,11 @@
 <body>
     <nav class="top-bar">
         <h1 class="top-bar-title">Blank's DatabaseSystem</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('show_employees') }}">Employees</a>
+            <a href="{{ url_for('manage_departments') }}">Departments</a>
+            <a href="{{ url_for('manage_positions') }}">Positions</a>
+        </div>
     </nav>
     
     <div class="container">
@@ -23,13 +28,23 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="position">Position:</label>
-                    <input type="text" name="position" required>
+                    <label for="position_id">Position:</label>
+                    <select name="position_id">
+                        <option value="">-- Select Position --</option>
+                        {% for pos in positions %}
+                            <option value="{{ pos.id }}">{{ pos.title }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="department">Department:</label>
-                    <input type="text" name="department" required>
+                    <label for="department_id">Department:</label>
+                    <select name="department_id">
+                        <option value="">-- Select Department --</option>
+                        {% for dept in departments %}
+                            <option value="{{ dept.id }}">{{ dept.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -59,15 +74,15 @@
                     <tr>
                         <td>{{ employee['id'] }}</td>
                         <td>{{ employee['name'] }}</td>
-                        <td>{{ employee['position'] }}</td>
-                        <td>{{ employee['department'] }}</td>
+                        <td>{{ employee['position_title'] or 'N/A' }}</td>
+                        <td>{{ employee['department_name'] or 'N/A' }}</td>
                         <td>{{ employee['email'] }}</td>
                         <td>{{ employee['created_at'] }}</td>
                         <td>
                             <div class="action-buttons">
                                 <a href="{{ url_for('edit_employee', employee_id=employee['id']) }}" class="edit-btn">Edit</a>
                                 <form method="POST" action="{{ url_for('delete_employee', employee_id=employee['id']) }}" class="delete-form">
-                                    <button type="submit" class="delete-btn" onclick="return confirm('確定要刪除 {{ employee['name'] }} 嗎？')">Delete</button>
+                                    <button type="submit" class="delete-btn" onclick="return confirm('確定要刪除 ' + {{ employee['name'] | tojson }} + ' 嗎？')">Delete</button>
                                 </form>
                             </div>
                         </td>
