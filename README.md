@@ -24,4 +24,12 @@ This presentation focuses on the two core requirements for the assignment:
 **1. Design an ER model for three entities.**
 
 **2. Perform CRUD operations on three tables and include at least one join in the final SELECT statement.**
+## HW3
+### HW3_Video：https://youtu.be/wzldmK4YBq8?si=yKw2sMXsJipf6Goh
+
+This presentation focuses on the two core requirements for the assignment:
+
+**1. Deployed on Render,Using MongoDB.**
+
+**2. Multiple insert function.**
 
