@@ -27,6 +27,8 @@ This presentation focuses on the two core requirements for the assignment:
 ## HW3
 ### HW3_Video：https://youtu.be/wzldmK4YBq8?si=yKw2sMXsJipf6Goh
 
+#### Extended Repo for HW3:https://github.com/BlankTsai/Database-system-2025-extended1
+
 This presentation focuses on the two core requirements for the assignment:
 
 **1. Deployed on Render,Using MongoDB.**
